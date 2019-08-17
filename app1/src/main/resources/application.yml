@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: app1
+
+server:
+  port: 8080
+  servlet:
+    context-path: /app1
+
+#注入目标，配置服务中心url，与服务端的配置保持一致
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9130/eureka/
+  instance:
+    # 心跳检测检测与续约时间
+    # 测试时将值设置设置小些，保证服务关闭后注册中心能及时踢出服务
+    lease-renewal-interval-in-seconds: 1    #每间隔1s，向服务端发送一次心跳，证明自己依然”存活“
+    lease-expiration-duration-in-seconds: 2 # 告诉服务端，如果我2s之内没有给你发心跳，就代表我“死”了，将我踢出掉。
+    health-check-url: http://localhost:9999/app1
+    status-page-url: http://localhost:9999/app1
